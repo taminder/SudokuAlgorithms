@@ -6,6 +6,8 @@ import javax.swing.event.ChangeListener;
 
 
 public abstract class AbstractModel implements Model{
+	protected static final int SLEEP_TIME = 10;
+	
 	public AbstractModel(){
 		grid = new Grid[3][3];
         listeners = new ArrayList<ChangeListener>();
@@ -91,6 +93,8 @@ public abstract class AbstractModel implements Model{
     }
     
     public int getCandidateCount(int row, int col){
+    	//if already filled, return 0
+    	if(get(row, col) != 0) return 0;
     	int count = 0;
     	for(int i = 1; i <= 9; i++)
     		if(isAvailable(row, col, i)) count++;
@@ -103,7 +107,7 @@ public abstract class AbstractModel implements Model{
     			//if some not filled yet
     			if(get(row, col) == 0) return false;
     			//if it violates rules
-    			if(!isAvailable(row, col, get(row, col))) return false;
+    			//if(!isAvailable(row, col, get(row, col))) return false;
     		}
     	return true;
     }
@@ -162,7 +166,7 @@ public abstract class AbstractModel implements Model{
         if(col >= 0 && col < 3) return 0;
         else if(col >= 3 && col < 6) return 1;
         else return 2;
-    }    
+    }
     
     public Grid getGrid(int gridRow, int gridCol) { return grid[gridRow][gridCol]; }
 	

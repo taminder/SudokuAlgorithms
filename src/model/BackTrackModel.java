@@ -32,7 +32,7 @@ public class BackTrackModel extends AbstractModel
                 if(isAvailable(row, col, k))
                 {
                     set(row, col, k);
-                    Thread.sleep(50);
+                    Thread.sleep(SLEEP_TIME);
                     solve(nextRow, nextCol);
                 }
             }

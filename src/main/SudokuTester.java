@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import controller.Controller;
 import view.ButtonView;
 import model.BackTrackModel;
+import model.Model;
+import model.RuleBasedModel;
 
 /**
  * Client
@@ -15,12 +17,19 @@ public class SudokuTester
 {
     public static void main(String[] args)
     {
-        BackTrackModel model = new BackTrackModel();
-        ButtonView frame = new ButtonView(model);
-        model.addListener(frame);
+    	Model ruleModel = new RuleBasedModel();
+        ButtonView ruleFrame = new ButtonView(ruleModel);
+        ruleModel.addListener(ruleFrame);
+        Runnable ruleR = new Controller(ruleModel);
+        Thread ruleT = new Thread(ruleR);
         
-        Runnable r = new Controller(model);
-        Thread t = new Thread(r);
-        t.start();
+        Model backModel = new BackTrackModel();
+        ButtonView backFrame = new ButtonView(backModel);
+        backModel.addListener(backFrame);
+        Runnable backR = new Controller(backModel);
+        Thread backT = new Thread(backR);
+        
+        ruleT.start();
+        backT.start();
     }
 }
