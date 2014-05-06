@@ -22,7 +22,7 @@ public class ButtonView extends JFrame implements ChangeListener
      * Initiate frame
      * @param model model which this view frame is listening to
      */
-    public ButtonView(Model model)
+    public ButtonView(Model model, String title)
     {
         super();
         this.model = model;
@@ -47,6 +47,8 @@ public class ButtonView extends JFrame implements ChangeListener
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        
+        this.setTitle(title);
     }
 
     public void stateChanged(ChangeEvent e)
