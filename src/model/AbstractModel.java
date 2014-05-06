@@ -6,7 +6,7 @@ import javax.swing.event.ChangeListener;
 
 
 public abstract class AbstractModel implements Model{
-	protected static final int SLEEP_TIME = 10;
+	protected static final int SLEEP_TIME = 0;
 	
 	public AbstractModel(){
 		grid = new Grid[3][3];
@@ -54,6 +54,8 @@ public abstract class AbstractModel implements Model{
         set(8,0,2);
         set(8,2,6);
         set(8,6,9);
+        
+        setCount -= 27; //ignore initializing call to set
 	}
 	
 	public void addListener(ChangeListener listener)
@@ -64,6 +66,7 @@ public abstract class AbstractModel implements Model{
     public void set(int row, int col, int k)
     {
         getGrid(getGridRow(row), getGridCol(col)).set(row % 3, col % 3, k);
+        setCount++;
         //Notify event to listeners
         ChangeEvent event = new ChangeEvent(this);
         for(ChangeListener listener : listeners)
@@ -169,7 +172,11 @@ public abstract class AbstractModel implements Model{
     }
     
     public Grid getGrid(int gridRow, int gridCol) { return grid[gridRow][gridCol]; }
+    public int getSetCount(){return setCount;}
 	
 	private Grid[][] grid; //data structure
     private ArrayList<ChangeListener> listeners; //listeners
+    protected int setCount;
+    protected long startTime;
+    protected int sleepCount;
 }

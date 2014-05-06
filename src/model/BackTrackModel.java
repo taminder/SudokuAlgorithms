@@ -9,7 +9,14 @@ public class BackTrackModel extends AbstractModel
     public void solve(int row, int col) throws Exception
     {
         //if solution found, terminate the program by throwing exception
-        if(row > 8) throw new Exception("Solved");
+        if(row > 8){
+        	long endTime = System.currentTimeMillis();
+			//runtime = end time - start time - sleep time
+        	long runtime = endTime - startTime - (sleepCount * SLEEP_TIME);
+        	System.out.println("Runtime for BackTracking: " + runtime + "ms");
+        	System.out.println("# setting value to square for BackTracking: " + getSetCount());
+        	throw new Exception("Solved");
+        }
         
         int nextRow, nextCol;
         if(col < 8)
@@ -33,6 +40,7 @@ public class BackTrackModel extends AbstractModel
                 {
                     set(row, col, k);
                     Thread.sleep(SLEEP_TIME);
+                    sleepCount++;
                     solve(nextRow, nextCol);
                 }
             }
@@ -55,7 +63,7 @@ public class BackTrackModel extends AbstractModel
     		}
     	}
     	return null;*/
-    	
+    	startTime = System.currentTimeMillis();
     	solve(0, 0);
     }
 }

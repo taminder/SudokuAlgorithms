@@ -9,6 +9,7 @@ public class RuleBasedModel extends AbstractModel{
 	}
 
 	public void solve() throws Exception {
+		startTime = System.currentTimeMillis();
 		solve(this);
 	}
 	
@@ -27,9 +28,14 @@ public class RuleBasedModel extends AbstractModel{
 			if(isAvailable(row, col, i)){
 				set(row, col, i);
 				Thread.sleep(SLEEP_TIME);
+				sleepCount++;
 				solve(model);
 				if(isValidAndComplete(model)){
-					System.out.println("Found a solution");
+					long endTime = System.currentTimeMillis();
+					//runtime = end time - start time - sleep time
+					long runtime = endTime - startTime - (sleepCount * SLEEP_TIME);
+			    	System.out.println("Runtime for RuleBased: " + runtime + "ms");
+			    	System.out.println("# setting value to square for RuleBased: " + getSetCount());
 					throw new Exception("Solved");
 				}
 				//restore previous state before backtracking
@@ -48,6 +54,7 @@ public class RuleBasedModel extends AbstractModel{
 						if(isAvailable(row, col, i)){
 							set(row, col, i);
 							Thread.sleep(SLEEP_TIME);
+							sleepCount++;
 							return true;
 						}
 				}
